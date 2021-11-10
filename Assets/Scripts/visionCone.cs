@@ -11,6 +11,7 @@ public class visionCone : MonoBehaviour
     public LayerMask walls;
     public LayerMask scan;
     public GameObject coneObj;
+    public float padding;
     private Mesh mesh;
     // Start is called before the first frame update
     void Start()
@@ -53,8 +54,9 @@ public class visionCone : MonoBehaviour
         for (int i = 0; i <= rayCount; i++)
         {
             Vector3 vertex;
+            Vector3 rayAngle = vectorFromAngle(angle);
 
-            RaycastHit2D scanRay = Physics2D.Raycast(origin, vectorFromAngle(angle), viewDist, scan);
+            RaycastHit2D scanRay = Physics2D.Raycast(origin, rayAngle, viewDist, scan);
             if (scanRay.collider != null)
             {
                 worldObject otherObject = scanRay.collider.GetComponent<worldObject>();
@@ -67,11 +69,11 @@ public class visionCone : MonoBehaviour
                 }
             }
 
-            RaycastHit2D wallRay = Physics2D.Raycast(origin, vectorFromAngle(angle), viewDist, walls);
+            RaycastHit2D wallRay = Physics2D.Raycast(origin, rayAngle, viewDist, walls);
             //Debug.DrawRay(origin, vectorFromAngle(angle).normalized * viewDist, Color.green, 1f);
             if (wallRay.collider != null)
             {
-                vertex = wallRay.point;
+                vertex = wallRay.point + new Vector2(rayAngle.normalized.x * padding, rayAngle.normalized.y * padding);
             }
             else
             {
