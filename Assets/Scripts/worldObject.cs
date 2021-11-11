@@ -7,6 +7,8 @@ public class worldObject : MonoBehaviour
     public int initLayer;
     public bool memorized;
     public int memLayer;
+    public int viewMemReq;
+    public int viewCover;
     private Renderer rend;
     // Start is called before the first frame update
     void Start()
